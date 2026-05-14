@@ -1,109 +1,252 @@
-# Anemia Detection using Conjunctiva Images
+# AI-Powered Medical Inference Platform with CI/CD, Monitoring, and Cloud-Native Deployment
 
-## Project Overview
-This project is a deep learning-based image classification system that predicts whether a person is **Anemic** or **Non-Anemic** using **conjunctiva eye images**.
+## Overview
 
-The system is designed as a **non-invasive screening support tool** and demonstrates how **computer vision** and **convolutional neural networks (CNNs)** can be applied in a healthcare-related classification task.
+An end-to-end AI-powered medical inference platform for non-invasive anemia detection using conjunctival eye images. The platform combines deep learning-based feature extraction with a Random Forest classifier and operationalizes the system using modern DevOps and SRE practices.
 
-It includes:
-- a trained CNN model,
-- a prediction pipeline for terminal-based testing,
-- a Flask web application for image upload and prediction,
-- and evaluation scripts to validate model performance.
+The project was transformed from a standalone machine learning application into a production-style deployment platform featuring:
 
----
-
-## 🎯 Objective
-To build an image-based classification system capable of identifying whether a person is likely to be:
-
-- **Anemic**
-- **Non-Anemic**
-
-using conjunctiva eye images as input.
+* Dockerized deployment
+* CI/CD automation
+* Multi-container orchestration
+* Observability and monitoring
+* Infrastructure-style architecture
+* Automated build workflows
+* Real-time metrics collection
 
 ---
 
-## 🧠 Methodology
-The project follows a standard machine learning / deep learning workflow:
+# Key Features
 
-1. **Data Collection**
-   - Conjunctiva images were collected and categorized into:
-     - Anemic
-     - Non-Anemic
+## AI/ML Features
 
-2. **Data Preprocessing**
-   - Images were normalized
-   - Resized to **64 × 64**
-   - Labels were encoded for classification
+* CNN-based feature extraction
+* Random Forest classification
+* Image preprocessing pipeline
+* Real-time inference predictions
+* Medical image classification workflow
 
-3. **Model Building**
-   - A **Convolutional Neural Network (CNN)** was developed for binary classification
+## DevOps Features
 
-4. **Model Training**
-   - The CNN was trained on the processed image dataset
+* Dockerized application runtime
+* Docker Compose multi-service orchestration
+* GitHub Actions CI/CD automation
+* Reproducible deployment environments
+* Automated Docker image builds
 
-5. **Prediction**
-   - New images can be tested using:
-     - terminal-based prediction
-     - Flask web interface
+## Observability & Monitoring
 
-6. **Evaluation**
-   - The trained model was validated using classification metrics and confusion matrix analysis
-
----
-
-## 🏗️ Model Architecture
-The project uses a custom **CNN (Convolutional Neural Network)** with the following structure:
-
-- **Conv2D (32 filters)**
-- **MaxPooling2D**
-- **Conv2D (64 filters)**
-- **MaxPooling2D**
-- **Conv2D (128 filters)**
-- **MaxPooling2D**
-- **GlobalAveragePooling2D**
-- **Dense Layer (100 neurons)**
-- **Output Layer (2 classes)**
-
-### Input Shape
-- **64 × 64 × 3**
-
-### Output Classes
-- **Class 0 → Anemic**
-- **Class 1 → Non-Anemic**
+* Prometheus metrics scraping
+* Grafana dashboard visualization
+* Request monitoring
+* Application telemetry exposure
+* Production-style monitoring architecture
 
 ---
 
-## 📂 Project Structure
+# System Architecture
+
+```text
+                    ┌────────────────────┐
+                    │    User / Client   │
+                    └─────────┬──────────┘
+                              │
+                              ▼
+                    ┌────────────────────┐
+                    │   Flask Web App    │
+                    │  AI Inference API  │
+                    └─────────┬──────────┘
+                              │
+                 ┌────────────┴────────────┐
+                 │                         │
+                 ▼                         ▼
+        ┌────────────────┐      ┌──────────────────┐
+        │ CNN + RF Model │      │ Metrics Endpoint │
+        │   Prediction   │      │    /metrics      │
+        └────────────────┘      └─────────┬────────┘
+                                           │
+                                           ▼
+                               ┌────────────────────┐
+                               │    Prometheus      │
+                               │ Metrics Collection │
+                               └─────────┬──────────┘
+                                         │
+                                         ▼
+                               ┌────────────────────┐
+                               │      Grafana       │
+                               │ Visualization UI   │
+                               └────────────────────┘
+
+
+                CI/CD AUTOMATION PIPELINE
+
+      GitHub Push
+            │
+            ▼
+   GitHub Actions Workflow
+            │
+   ┌────────┴────────┐
+   ▼                 ▼
+Install Dependencies  Build Docker Image
+```
+
+---
+
+# Technology Stack
+
+| Category              | Technology         |
+| --------------------- | ------------------ |
+| Backend Framework     | Flask              |
+| Machine Learning      | TensorFlow / Keras |
+| ML Classifier         | Random Forest      |
+| Containerization      | Docker             |
+| Orchestration         | Docker Compose     |
+| CI/CD                 | GitHub Actions     |
+| Monitoring            | Prometheus         |
+| Visualization         | Grafana            |
+| Version Control       | Git + GitHub       |
+| Language              | Python             |
+| Operating Environment | Linux Containers   |
+
+---
+
+# CI/CD Workflow
+
+The platform uses GitHub Actions to automate:
+
+* Dependency installation
+* Docker image builds
+* CI validation workflows
+* Deployment pipeline verification
+
+Every push to the main branch automatically triggers the CI pipeline.
+
+---
+
+# Monitoring & Observability
+
+The application exposes a Prometheus-compatible metrics endpoint:
+
+```text
+/metrics
+```
+
+Prometheus scrapes telemetry data from the Flask application and Grafana visualizes the collected metrics through dashboards.
+
+Current observability capabilities include:
+
+* Request monitoring
+* Application telemetry
+* Service health visibility
+* Infrastructure-style metrics collection
+
+---
+
+# Dockerized Deployment
+
+The application was containerized using Docker to provide:
+
+* Reproducible environments
+* Portable deployments
+* Dependency isolation
+* Cross-platform execution
+* Cloud deployment readiness
+
+The complete stack is orchestrated using Docker Compose.
+
+---
+
+# Running the Application
+
+## Clone Repository
 
 ```bash
-Anemia Scope/
-│
-├── artifacts/                  # Dataset folders
-│   ├── Resized Anemia
-│   └── Resized Non Anemia
-│
-├── assets/                     # Sample/test images and encoder
-├── model/                      # Trained model weights
-│   └── model_weights.weights.h5
-│
-├── src/
-│   ├── components/
-│   │   ├── data_ingestion.py
-│   │   ├── data_transformation.py
-│   │   └── model_trainer.py
-│   │
-│   ├── pipeline/
-│   │   └── predict_pipeline.py
-│   │
-│   ├── exception.py
-│   └── logger.py
-│
-├── static/                     # Uploaded images for web app
-├── templates/
-│   └── index.html              # Flask frontend UI
-│
-├── app.py                      # Flask web application
-├── evaluate_model.py           # Model evaluation script
-├── evaluate_model_advanced.py  # Advanced evaluation with saved reports
-└── README.md
+git clone https://github.com/sahilusmani7/anemia-ai-platform.git
+cd anemia-ai-platform
+```
+
+---
+
+## Create Virtual Environment
+
+```bash
+py -3.11 -m venv venv
+```
+
+---
+
+## Activate Environment
+
+```bash
+.\venv\Scripts\activate
+```
+
+---
+
+## Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Run Flask Application
+
+```bash
+python app.py
+```
+
+---
+
+## Run Dockerized Stack
+
+```bash
+docker compose up --build
+```
+
+---
+
+# Service Ports
+
+| Service           | Port |
+| ----------------- | ---- |
+| Flask Application | 5000 |
+| Prometheus        | 9090 |
+| Grafana           | 3000 |
+
+---
+
+# Future Improvements
+
+* Kubernetes deployment
+* Terraform infrastructure automation
+* NGINX reverse proxy
+* Cloud deployment on AWS/Render
+* HTTPS configuration
+* Load balancing
+* Distributed monitoring
+
+---
+
+# Resume Highlights
+
+* Developed a containerized AI-powered medical inference platform using Flask, TensorFlow, and Docker
+* Implemented CI/CD automation using GitHub Actions for Docker-based deployment workflows
+* Built observability stack using Prometheus and Grafana for metrics collection and monitoring
+* Orchestrated multi-container services using Docker Compose
+* Designed production-style deployment architecture for reproducible ML inference workflows
+
+---
+
+# Project Outcome
+
+This project demonstrates the integration of:
+
+* Machine Learning
+* Backend Engineering
+* DevOps Automation
+* Observability
+* Infrastructure-Oriented Deployment
+
+into a unified production-style AI platform suitable for DevOps, SRE, Cloud, and MLOps-oriented engineering roles.

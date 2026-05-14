@@ -1,4 +1,5 @@
 import os
+from prometheus_client import Counter, generate_latest
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 os.makedirs("static", exist_ok=True)
 
@@ -9,14 +10,24 @@ from src.components.model_trainer import ModelTrainer
 from src.components.data_transformation import DataTransformation
 
 app = Flask(__name__)
+REQUEST_COUNT = Counter(
+    'app_requests_total',
+    'Total App HTTP Request Count'
+)
 
 # Load model once when app starts
 model = ModelTrainer().create_model()
 model.load_weights("model/model_weights.weights.h5")
 
+@app.route("/metrics")
+def metrics():
+    return generate_latest(), 200, {
+        'Content-Type': 'text/plain'
+    }
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    REQUEST_COUNT.inc()
     result = None
     image_path = None
 
@@ -51,6 +62,7 @@ def index():
     return render_template("index.html", result=result, image_path=image_path)
 @app.route("/health")
 def health():
+    REQUEST_COUNT.inc()
     return {"status": "healthy"}, 200
 
 
