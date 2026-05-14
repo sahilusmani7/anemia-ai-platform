@@ -49,7 +49,10 @@ def index():
                 result = "Could not process the uploaded image."
 
     return render_template("index.html", result=result, image_path=image_path)
+@app.route("/health")
+def health():
+    return {"status": "healthy"}, 200
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
