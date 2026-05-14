@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anemia Detection System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #1f2937;
+        }
+
+        p {
+            color: #6b7280;
+            margin-bottom: 25px;
+        }
+
+        .upload-box {
+            border: 2px dashed #cbd5e1;
+            padding: 25px;
+            border-radius: 12px;
+            background: #f9fafb;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            margin: 15px 0;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .result-box {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #eef6ff;
+        }
+
+        .result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        .preview {
+            margin-top: 20px;
+        }
+
+        .preview img {
+            width: 280px;
+            border-radius: 12px;
+            border: 1px solid #d1d5db;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .footer {
+            margin-top: 25px;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+        .note {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Anemia Detection System</h1>
+        <p>Upload a conjunctiva eye image to predict whether the person is likely Anemic or Non-Anemic.</p>
+
+        <form method="POST" enctype="multipart/form-data">
+            <div class="upload-box">
+                <label><strong>Select an image</strong></label><br>
+                <input type="file" name="image" accept="image/*" required>
+                <br>
+                <button type="submit">Predict</button>
+            </div>
+        </form>
+
+        {% if result %}
+        <div class="result-box">
+            <div class="result">Prediction: {{ result }}</div>
+
+            {% if image_path %}
+            <div class="preview">
+                <img src="{{ image_path }}" alt="Uploaded Image">
+            </div>
+            {% endif %}
+
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

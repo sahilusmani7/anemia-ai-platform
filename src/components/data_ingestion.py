@@ -19,14 +19,13 @@ class DataIngestion:
             data_dir = 'artifacts'
             dirs = os.listdir(data_dir)
             
-            ## 
             for i in dirs:
                 path = os.path.join(data_dir, i)
                 
                 for img in os.listdir(path):
                     image = cv.imread(os.path.join(path,img))
                     image = cv.resize(image, (64,64))
-                    data.append([image, i])
+                    data.append([image, i]) ## Store image with label
 
             logging.info("ingestion of data is completed")
             logging.info("shuffling the data")

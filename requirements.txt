@@ -1,10 +1,9 @@
-pandas 
-scikit-learn
-numpy
-matplotlib
-seaborn
 flask
 tensorflow
-keras
+numpy
+pandas
+scikit-learn
 opencv-python
--e .
+matplotlib
+seaborn
+Pillow

@@ -38,6 +38,7 @@ class DataTransformation:
             
         except Exception as e:
             raise CustomException(e, sys)
+        
         return encoded_labels
         
     def initiate_data_transformation(self, images, labels):

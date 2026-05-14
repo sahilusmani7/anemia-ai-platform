@@ -1,77 +1,109 @@
+# Anemia Detection using Conjunctiva Images
 
-## Anemia Detection using Conjuctiva Images
+## Project Overview
+This project is a deep learning-based image classification system that predicts whether a person is **Anemic** or **Non-Anemic** using **conjunctiva eye images**.
 
-Aim is to develop a robust and efficient model for the early detection of anemia using Convolutional Neural Networks (CNN) applied to conjunctiva images. Anemia, a condition characterized by a deficiency of red blood cells or hemoglobin, is a prevalent health concern globally. Early detection is crucial for timely intervention and effective management.
-## Dataset
+The system is designed as a **non-invasive screening support tool** and demonstrates how **computer vision** and **convolutional neural networks (CNNs)** can be applied in a healthcare-related classification task.
 
-The dataset consists of 4262 conjuctiva images. The conjunctiva is a thin, clear membrane that protects your eye. The aim is to classify the images into anemic or non-anemic. The dataset is almost balanced and ready for the model building.
+It includes:
+- a trained CNN model,
+- a prediction pipeline for terminal-based testing,
+- a Flask web application for image upload and prediction,
+- and evaluation scripts to validate model performance.
 
-![img](https://github.com/FahadUsmani20/Anemia-Detection/blob/main/assets/dataset.png)
+---
 
+## 🎯 Objective
+To build an image-based classification system capable of identifying whether a person is likely to be:
 
-    
+- **Anemic**
+- **Non-Anemic**
 
-## Components
+using conjunctiva eye images as input.
 
-- **Data Ingestion**
-  
-  Data Ingestion Component of an Anemia Detection project, handles the data ingestion process for conjunctiva images using Convolutional Neural Networks (CNN). The DataIngestion class reads images from the 'artifacts' directory, resizes them to a uniform 64x64 pixels, shuffles the data, and returns the preprocessed images along with their corresponding labels. The main script instantiates this class, performs data ingestion, and subsequently passes the data to the DataTransformation component for further preprocessing.
+---
 
-- **Data Transformation**
+## 🧠 Methodology
+The project follows a standard machine learning / deep learning workflow:
 
-    Data Transformation Component forms part of an Anemia Detection project, focuses on data transformation for input images and corresponding labels. The DataTransformation class offers two key methods. The image_data_transformation method preprocesses the input image array, scaling pixel values to a range between 0 and 1. This normalization enhances the model's convergence during training. The labels_data_transformation method encodes the input labels using LabelEncoder from sklearn. The encoded labels are then saved using pickle, and the encoder itself is persisted for potential later use. The class also provides an initiate_data_transformation method, serving as an entry point for the overall data transformation process. This method orchestrates the image and label transformations, returning a tuple containing the preprocessed images and encoded labels. Throughout the code, detailed logging is implemented to track the progress of the data transformation steps, and custom exceptions are raised to facilitate error handling. The script complements the data ingestion component, ensuring that the input data is appropriately preprocessed for subsequent use in the Anemia Detection pipeline.
+1. **Data Collection**
+   - Conjunctiva images were collected and categorized into:
+     - Anemic
+     - Non-Anemic
 
+2. **Data Preprocessing**
+   - Images were normalized
+   - Resized to **64 × 64**
+   - Labels were encoded for classification
 
-- **Model Trainer**
+3. **Model Building**
+   - A **Convolutional Neural Network (CNN)** was developed for binary classification
 
-    This Python script contributes to the Anemia Detection project and is responsible for training a Convolutional Neural Network (CNN) model using the Keras library. The `ModelTrainer` class contains methods to create, compile, and train the CNN model, as well as to evaluate its performance.
+4. **Model Training**
+   - The CNN was trained on the processed image dataset
 
-    The `create_model` method initializes a sequential model structure with convolutional layers, max-pooling layers, and densely connected layers. This architecture is designed to extract features from the conjunctiva images provided as input.
+5. **Prediction**
+   - New images can be tested using:
+     - terminal-based prediction
+     - Flask web interface
 
-    The `initiate_model_trainer` method orchestrates the entire training process. It calls the `create_model` method to obtain the CNN model, compiles it using the Adam optimizer and sparse categorical crossentropy loss, and then fits the model to the training data. The training process is monitored and validated using the test data over 50 epochs with a batch size of 8.
+6. **Evaluation**
+   - The trained model was validated using classification metrics and confusion matrix analysis
 
-    After training, the model's performance is evaluated by predicting on the test set, and metrics such as confusion matrix and classification report are printed. Additionally, the trained model weights are saved for potential future use.
+---
 
-    Throughout the code, detailed logging is implemented to track the progress and identify any issues during the model training process. Custom exceptions are raised to facilitate error handling. The script completes the data processing pipeline, providing a trained model ready for anemia detection based on conjunctiva images.   
+## 🏗️ Model Architecture
+The project uses a custom **CNN (Convolutional Neural Network)** with the following structure:
 
+- **Conv2D (32 filters)**
+- **MaxPooling2D**
+- **Conv2D (64 filters)**
+- **MaxPooling2D**
+- **Conv2D (128 filters)**
+- **MaxPooling2D**
+- **GlobalAveragePooling2D**
+- **Dense Layer (100 neurons)**
+- **Output Layer (2 classes)**
 
-## Architecture 
+### Input Shape
+- **64 × 64 × 3**
 
-![img](https://github.com/FahadUsmani20/Anemia-Detection/blob/main/assets/Architecture.png)
+### Output Classes
+- **Class 0 → Anemic**
+- **Class 1 → Non-Anemic**
 
-## Run Locally
+---
 
-Clone the project
+## 📂 Project Structure
 
 ```bash
-  git clone https://github.com/FahadUsmani20/Anemia-Detection.git
-```
-
-Go to the project directory
-
-```bash
-  cd Detection-of-Anemia-Using-Conjuctiva-Images
-```
-
-Install dependencies
-
-```bash
-  pip install -r requirements.txt
-```
-
-Run the model
-
-```bash
-  python src/components/data_ingestion.py
-```
-
-## Performance Results 
-
-- **Confusion Matrix**
-
-![img](https://github.com/FahadUsmani20/Anemia-Detection/blob/main/assets/confusion_matrix.png)
-
-
-- **Classification Report**
-
-![img](https://github.com/FahadUsmani20/Anemia-Detection/blob/main/assets/classification%20report.png)
+Anemia Scope/
+│
+├── artifacts/                  # Dataset folders
+│   ├── Resized Anemia
+│   └── Resized Non Anemia
+│
+├── assets/                     # Sample/test images and encoder
+├── model/                      # Trained model weights
+│   └── model_weights.weights.h5
+│
+├── src/
+│   ├── components/
+│   │   ├── data_ingestion.py
+│   │   ├── data_transformation.py
+│   │   └── model_trainer.py
+│   │
+│   ├── pipeline/
+│   │   └── predict_pipeline.py
+│   │
+│   ├── exception.py
+│   └── logger.py
+│
+├── static/                     # Uploaded images for web app
+├── templates/
+│   └── index.html              # Flask frontend UI
+│
+├── app.py                      # Flask web application
+├── evaluate_model.py           # Model evaluation script
+├── evaluate_model_advanced.py  # Advanced evaluation with saved reports
+└── README.md
